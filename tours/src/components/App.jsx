@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from "./Card";
 import Heading from "./Heading";
 
 
 function App() {
 
-  let [fetchedTours, setFetchedTours] = useState([]);
+  let [fetchedTours, setFetchedTours] = React.useState([]);
 
   async function getTours() {
         const toursUrl = 'https://course-api.com/react-tours-project';
@@ -15,7 +15,7 @@ function App() {
         .catch(err => console.log(err));
   }
 
-  useEffect(
+  React.useEffect(
     () => {
       let ignore = false;
 
@@ -25,12 +25,23 @@ function App() {
     }
   ,[]);
 
+  function deleteCard(e, cardId) {
+    e.persist();
+    if(e.target.id === cardId) {
+      return setFetchedTours(prev => {
+            return prev.filter(tour => tour.id !== cardId);
+      });
+    }
+}
+
   let Cards = () => fetchedTours.map(tour => 
      (
     <Card 
-      key ={tour.id}
-      image ={tour.image}
+      key={tour.id}
+      cardId={tour.id}
+      image={tour.image}
       info={tour.info}
+      deleteCard={deleteCard}
       name={tour.name}
       price={tour.price}
     />
