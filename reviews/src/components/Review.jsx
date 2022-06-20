@@ -24,6 +24,15 @@ export default function Reviews() {
         }
     }
 
+
+    function handleRandomReview() {
+        let randomIndex = Math.floor(Math.random() * reviews.length);
+        setIndex(prevIndex => {
+           return enforceRandomness(prevIndex, randomIndex, indexOfLastReview);
+        });
+    }
+    
+
     function enforceRandomness(prevIndex, randomIndex, indexOfLastReview) {
             if(prevIndex === randomIndex) {
                 if(randomIndex < indexOfLastReview){
@@ -35,13 +44,6 @@ export default function Reviews() {
                 }
             }
             return randomIndex;       
-    }
-
-    function handleRandomReview() {
-        let randomIndex = Math.floor(Math.random() * reviews.length);
-        setIndex(prevIndex => {
-           return enforceRandomness(prevIndex, randomIndex, indexOfLastReview);
-        });
     }
 
 
