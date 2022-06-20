@@ -5,7 +5,7 @@ import reviews from "../data";
 export default function Reviews() {
     let [index, setIndex] = useState(0);
 
-    let currentReview = reviews[index];
+    let {name, job, image, text} = reviews[index];
     let indexOfLastReview = reviews.length - 1
 
     function handleNextReview() {
@@ -24,23 +24,38 @@ export default function Reviews() {
         }
     }
 
+    function enforceRandomness(prevIndex, randomIndex, indexOfLastReview) {
+            if(prevIndex === randomIndex) {
+                if(randomIndex < indexOfLastReview){
+                    return randomIndex + 1;
+                }
+
+                if(randomIndex === indexOfLastReview) {
+                    return randomIndex - 1;
+                }
+            }
+            return randomIndex;       
+    }
+
     function handleRandomReview() {
-        let randomReviewIndex = Math.floor(Math.random() * reviews.length);
-        setIndex(randomReviewIndex);
+        let randomIndex = Math.floor(Math.random() * reviews.length);
+        setIndex(prevIndex => {
+           return enforceRandomness(prevIndex, randomIndex, indexOfLastReview);
+        });
     }
 
 
     return (
         <article className="review">
             <div className="img-container">
-                <img src={currentReview.image} alt={currentReview.name} className="person-img"/>
+                <img src={image} alt={name} className="person-img"/>
                 <span className="quote-icon">
                     <FaQuoteRight />
                 </span>
             </div>
-            <h4 className="author">{currentReview.name}</h4>
-            <p className="job">{currentReview.job}</p>
-            <p className="info">{currentReview.text}</p>
+            <h4 className="author">{name}</h4>
+            <p className="job">{job}</p>
+            <p className="info">{text}</p>
             <div className="button-container">
                 <button className="prev-btn" onClick={handlePreviousReview}>
                     <FaChevronLeft />
