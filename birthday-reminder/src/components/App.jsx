@@ -24,10 +24,8 @@ function App() {
       name={person.name} 
       age={person.age}    
       />)
-      ) 
-      : <h3>0 birthdays today</h3>
+      ) : <h3>0 birthdays today</h3>
       }
-      
       <Button clearAll={clearAll} clicked={clicked}/>
       </section> 
     </main>

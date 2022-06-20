@@ -14,7 +14,7 @@ function App() {
         await fetch(toursUrl)
         .then(response => response.json())
         .then(toursData => setFetchedTours(toursData))
-        .catch(err => console.log(err));
+        .catch(err => console.log(`ERROR: ${err.message}`));
   }
 
   React.useEffect(
@@ -30,6 +30,7 @@ function App() {
     () => {
       switch(document.readyState) {
         case "complete" : setLoading(false);
+        break;
       }
     }
   );
@@ -70,13 +71,13 @@ function App() {
   return (
     <main>
       <section>
-      {loading && <Loading />}
-      {!loading && (
+      {loading ? <Loading /> : 
+      (
         <>
           <Heading />
           {Cards}
         </>
-      )}
+      )}    
       </section>
     </main>
   )     
