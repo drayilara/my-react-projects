@@ -3,6 +3,7 @@ import Question from './Question';
 import questionsData from "../data";
 
 function App() {
+  
   let questions = questionsData.map(question => {
     let {id, title, info} = question
     return (

@@ -1,11 +1,13 @@
 import React from 'react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+
+
 const Question = ({title, info}) => {
 
-  let [ showInfo, setShowInfo ] = React.useState(false);
+  let [ showInfo, setShowInfo ] = React.useState(false)
 
-  function toggleBtn() {
-    setShowInfo(!showInfo);
+    function toggleBtn() {
+      setShowInfo(!showInfo);     
   }
 
   return (
