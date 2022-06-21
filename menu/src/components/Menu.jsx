@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Menu({menuId, title, category, price, img, description}) {
+export default function Menu({title, price, img, description}) {
   return (
         <article className="menu-item">
           <img className="photo" src={img} alt={title} />

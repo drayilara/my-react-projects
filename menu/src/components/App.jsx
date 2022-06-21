@@ -7,11 +7,11 @@ import menuData from "../data";
 
 
 function App() {
-  let [menu, setMenu] = React.useState(showAllMenu());
+  let [menu, setMenu] = React.useState(allMenu());
 
-  function showAllMenu() {
-    return menuData.map(meal => (
-       <Menu 
+  function menuAndProps(meal){
+      return (
+        <Menu 
        key = {meal.id}
        title = {meal.title}
        category = {meal.category}
@@ -19,33 +19,30 @@ function App() {
        img = {meal.img}
        description = {meal.desc}
      />
-     ))
-}
+      )
+  }
 
+  function allMenu() {
+    return menuData.map(meal => (
+       menuAndProps(meal)
+     ))
+  }
 
   function filterMenu(e) {
     e.persist();
-    let requestedMeal = e.target.textContent;
-    
-    let filteredMenu = menuData.map(meal => {
+    let { textContent:requestedMeal } = e.target;
+    let filteredMenu;
+
       if(requestedMeal === "all") {
-        return showAllMenu();
-      }
-      if(meal.category === requestedMeal) {
-        
-        return (
-          <Menu 
-          key = {meal.id}
-          title = {meal.title}
-          category = {meal.category}
-          price = {meal.price}
-          img = {meal.img}
-          description = {meal.desc}
-            />
-          )
-      }
-    })
-    setMenu(filteredMenu);
+          filteredMenu = allMenu();
+      }else{
+          filteredMenu = menuData.map(meal => {
+            if(meal.category === requestedMeal) { 
+              return menuAndProps(meal);
+            }
+          })
+      }    
+    return setMenu(filteredMenu);
   }
 
   return (
