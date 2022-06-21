@@ -7,7 +7,13 @@ import menuData from "../data";
 
 
 function App() {
+
   let [menu, setMenu] = React.useState(allMenu());
+  let [categories] = React.useState(["all", ...dynamicallyGenerateCategoryFromData()]);
+
+  function dynamicallyGenerateCategoryFromData() {
+    return Array.from(new Set(menuData.map(meal => meal.category)));
+  }
 
   function menuAndProps(meal){
       return (
@@ -30,7 +36,7 @@ function App() {
 
   function filterMenu(e) {
     e.persist();
-    let { textContent:requestedMeal } = e.target;
+    let { name:requestedMeal } = e.target;
     let filteredMenu;
 
       if(requestedMeal === "all") {
@@ -49,7 +55,7 @@ function App() {
     <main>
       <section className="menu section">
       <Header />
-      <Categories filterMenu = {filterMenu} />
+      <Categories filterMenu = {filterMenu} categories = {categories} />
       <div className="section-center">
       {menu}
       </div>  
