@@ -1,45 +1,19 @@
-import React, { useEffect } from 'react';
-import Person from "./Person"
-import Header from "./Header"
-import people from "../data";
+import React from 'react';
+import Person from "./Person";
+import Header from "./Header";
 
 
-function App() {
-  let [index, setIndex] = React.useState(0);
-  let maxAllowedIndex = people.length - 1;
 
-  let { image, name, title, quote } = people[index];
-
-  function slider() {
-    if(index === maxAllowedIndex) {
-      setIndex(0);
-      return;
-    }
-
-    if(index < maxAllowedIndex) {
-      setIndex(prevIndex =>  prevIndex + 1);
-      return;
-    }
-  }
-
-  useEffect(
-    () => {
-      let intervalId = setInterval(() => {
-        slider();
-      }, 5000)
-      return () => clearInterval(intervalId);
-    } 
-, [index])
-
+export default function App() {
 
   return (
     <>
       <section className="section">
       <Header />
-      <Person image={image} name={name} title={title} quote={quote}/>
+      <Person />
       </section>
     </>
   )
 }
 
-export default App;
+
