@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaBars } from "react-icons/fa";
 import { links, social } from "../data";
 
-let { log } = console;
 export default function Navbar() {
     let [menu, setMenu] = useState(false);
     let hamburgerMenu = useRef();
