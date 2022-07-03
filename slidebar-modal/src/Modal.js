@@ -1,6 +1,10 @@
 import React, { useRef, useEffect } from 'react'
 import { FaTimes } from 'react-icons/fa'
-const Modal = ({ showModalAndUpdater }) => {
+import { useConsumeContext } from "./context"
+
+
+const Modal = () => {
+  let { showModalAndUpdater } = useConsumeContext();
   let { showModal, setShowModal } = showModalAndUpdater;
   let modalRef = useRef(null)
 

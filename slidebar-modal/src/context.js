@@ -1,1 +1,11 @@
-import React, { useState, useContext } from 'react'
+import React, { createContext, useContext } from 'react';
+
+let Context = createContext();
+
+let ContextProvider = Context.Provider
+
+let useConsumeContext = () => {
+    return useContext(Context);
+}
+
+export {ContextProvider, useConsumeContext};

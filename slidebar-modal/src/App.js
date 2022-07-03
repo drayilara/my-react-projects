@@ -2,6 +2,10 @@ import React, { useMemo, useState } from 'react'
 import Modal from './Modal'
 import Sidebar from './Sidebar'
 import Home from './Home'
+import { ContextProvider } from './context';
+
+
+
 function App() {
   let [ sidebar, setSidebar ] = useState(false);
   let [ showModal, setShowModal ] = useState(false);
@@ -20,12 +24,19 @@ function App() {
     }
   }, [ showModal ])
 
+  let providerValue = {
+    showModalAndUpdater : showModalAndUpdater,
+    sidebarAndUpdater : sidebarAndUpdater
+  }
+
   return (
     <>
     <main>
-      <Home sidebarAndUpdater={sidebarAndUpdater} showModalAndUpdater={showModalAndUpdater}/>
-      <Sidebar sidebarAndUpdater={sidebarAndUpdater} showModalAndUpdater={showModalAndUpdater}/>
-      <Modal showModalAndUpdater={showModalAndUpdater}/>
+      <ContextProvider value={providerValue}>
+      <Home />
+      <Sidebar />
+      <Modal />
+      </ContextProvider>
     </main> 
     </>
   )

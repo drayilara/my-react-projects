@@ -2,10 +2,12 @@ import React, { useRef, useEffect } from 'react'
 import logo from './logo.svg'
 import { FaTimes } from 'react-icons/fa'
 import { social, links } from './data'
+import {useConsumeContext} from './context'
 
-const Sidebar = ({sidebarAndUpdater}) => {
+const Sidebar = () => {
+  let { sidebarAndUpdater} = useConsumeContext();
   let { sidebar, setSidebar } = sidebarAndUpdater
-  let sidebarRef = useRef(null)
+  let sidebarRef = useRef(null);
 
   useEffect(
     () => {

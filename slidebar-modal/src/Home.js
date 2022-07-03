@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FaBars } from 'react-icons/fa'
+import { useConsumeContext } from './context';
 
-const Home = ({ sidebarAndUpdater, showModalAndUpdater}) => {
+const Home = () => {
+  let { sidebarAndUpdater, showModalAndUpdater } = useConsumeContext();
   let {sidebar, setSidebar} = sidebarAndUpdater;
   let {showModal, setShowModal} = showModalAndUpdater;
 
