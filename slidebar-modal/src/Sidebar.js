@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React from 'react'
 import logo from './logo.svg'
 import { FaTimes } from 'react-icons/fa'
 import { social, links } from './data'
@@ -6,25 +6,11 @@ import {useConsumeContext} from './context'
 
 const Sidebar = () => {
   let { sidebarAndUpdater} = useConsumeContext();
-  let { sidebar, setSidebar } = sidebarAndUpdater
-  let sidebarRef = useRef(null);
-
-  useEffect(
-    () => {
-      if(sidebar) {
-        sidebarRef.current.classList.add("show-sidebar");
-      }
-      
-      if(!sidebar){
-        sidebarRef.current.classList.remove("show-sidebar");
-      }
-      
-    }
-  , [ sidebar ]);
+  let { sidebar, setSidebar } = sidebarAndUpdater;
 
 
   return (
-    <aside className="sidebar" ref={sidebarRef}>
+    <aside className={`sidebar ${sidebar && `show-sidebar`}` } >
       <div className="sidebar-header">
         <img src={logo} alt="logo" className="logo" />
         <button className="close-btn" onClick={() => setSidebar(!sidebar)}>

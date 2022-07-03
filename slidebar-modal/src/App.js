@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import Modal from './Modal'
 import Sidebar from './Sidebar'
 import Home from './Home'
@@ -10,19 +10,15 @@ function App() {
   let [ sidebar, setSidebar ] = useState(false);
   let [ showModal, setShowModal ] = useState(false);
 
-  let sidebarAndUpdater = useMemo(() => {
-    return {
+  let sidebarAndUpdater =  {
       sidebar : sidebar,
       setSidebar : setSidebar
     }
-  }, [ sidebar ])
 
-  let showModalAndUpdater = useMemo(() => {
-    return {
+  let showModalAndUpdater =  {
       showModal : showModal,
       setShowModal : setShowModal
     }
-  }, [ showModal ])
 
   let providerValue = {
     showModalAndUpdater : showModalAndUpdater,
