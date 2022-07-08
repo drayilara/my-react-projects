@@ -1,9 +1,8 @@
-import React, { useState, useContext, createContext, useEffect } from 'react'
+import React, { useState, useContext, createContext, useEffect, useRef } from 'react'
 
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-
     let [ hoverAndProduct, setHoverAndProduct ] = useState({
             hover : false,
             product : ""
@@ -11,29 +10,32 @@ const AppProvider = ({ children }) => {
 
     let [ windowWidth, setWindowWidth ] = useState(window.innerWidth);
 
-    let [ showSidebar, setShowsidebar ] = useState(false);
-
+    let submenuRef = useRef(null);
+    let isPositionOfSubmenu = useRef(0);
     
+    let [ hoverSubmenu, setHoverSubmenu ] = useState(false);
+
+    let [ showSidebar, setShowsidebar ] = useState(false);
 
     useEffect(
         () => {
             window.addEventListener("resize", () => setWindowWidth(window.innerWidth));
         }
     , [])
-
-    let contextValue = {
-        hoverAndProduct : hoverAndProduct,
-        setHoverAndProduct : setHoverAndProduct,
-        windowWidth : windowWidth,
-        setWindowWidth : setWindowWidth,
-        showSidebar : showSidebar,
-        setShowsidebar : setShowsidebar
-    }
-
-
-
+        
     return (
-        <AppContext.Provider value={contextValue}>
+        <AppContext.Provider value={{
+            hoverAndProduct : hoverAndProduct,
+            setHoverAndProduct : setHoverAndProduct,
+            windowWidth : windowWidth,
+            setWindowWidth : setWindowWidth,
+            showSidebar : showSidebar,
+            setShowsidebar : setShowsidebar,
+            submenuRef : submenuRef,
+            isPositionOfSubmenu : isPositionOfSubmenu,
+            hoverSubmenu : hoverSubmenu,
+            setHoverSubmenu : setHoverSubmenu
+        }}>
             {children}
         </AppContext.Provider>
     )

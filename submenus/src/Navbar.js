@@ -5,11 +5,20 @@ import data from "./data";
 import { useConsumeAppContext } from './context';
 
 const Navbar = () => {
-  let { setHoverAndProduct, windowWidth, setShowsidebar } = useConsumeAppContext();
+
+  let { setHoverAndProduct, windowWidth, setShowsidebar, isPositionOfSubmenu } = useConsumeAppContext();
   let breakPoint = 799;
 
   function handleMouseOver(e) {
       let {textContent:product} = e.target;
+      let boundingDimensions = e.target.getBoundingClientRect();
+
+      let left = boundingDimensions.left;
+      let right = boundingDimensions.right;
+      let elementWidth = right - left;
+
+      isPositionOfSubmenu.current = left + (elementWidth/2);  
+
       setHoverAndProduct(prev => {
         return {
           ...prev,
@@ -41,7 +50,7 @@ const Navbar = () => {
           {data.map(link => <li key={link.page}>
           <button className="link-btn"
           onMouseOver={(e) => handleMouseOver(e)}
-          onMouseOut={() => handleMouseOut()}
+          onMouseLeave={() => handleMouseOut()}
           >{link.page}
           </button>
           </li>)}
