@@ -23,16 +23,25 @@ const cartReducer = (cartState, action) => {
                     startingPrice : cartState[action.id].startingPrice, 
                     cumulativePrice : cartState[action.id].cumulativePrice - cartState[action.id].startingPrice  
                 },
-                totalCount : cartState.totalCount - 1
+                totalCount : cartState.totalCount - 1,
+                totalPriceToPay : cartState.totalPriceToPay - cartState[action.id].startingPrice
             }
         
         case "REMOVE ITEM" : 
             return {
                 ...cartState,
                 data : cartState.data.filter(item => action.id !== Number(item.id)),
-                totalCount : cartState.totalCount - 1
+                totalCount : cartState.totalCount - 1,
+                totalPriceToPay : cartState.totalPriceToPay - cartState[action.id].startingPrice
             }
         
+        case "CLEAR CART" :
+            return {
+                ...cartState,
+                data : [],
+                totalPriceToPay : 0,
+                totalCount : 0
+            }
 
         default : console.log(action.type + " not available in cartReducer.jsx");
     }

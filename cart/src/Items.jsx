@@ -48,10 +48,17 @@ const Items = () => {
         })
     }
 
+    const clearCart = () => {
+        
+        dispatchCartState({
+            type : "CLEAR CART"
+        })
+    }
+
     return (
         <section className="cart">
             <header>
-                <h2>your bag</h2>
+                <h2>{cartState.data.length ? "your bag" : "your bag is empty"}</h2>
             </header>
 
         <div>
@@ -100,7 +107,10 @@ const Items = () => {
                     </h4>
                 </div>
 
-                <button className="btn clear-btn"> Clear cart </button>
+                <button 
+                className="btn clear-btn"
+                onClick={clearCart}  
+                > Clear cart </button>
             </footer>
         </section>
     )

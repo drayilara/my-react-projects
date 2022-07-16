@@ -23,7 +23,7 @@ const CartProvider = ({children}) => {
     },0);
 
     const [cartState, dispatchCartState] = useReducer(cartReducer, initialState);
-    console.log(Object.values(cartState))
+    
     let bundledValue = {
         cartState,
         dispatchCartState
