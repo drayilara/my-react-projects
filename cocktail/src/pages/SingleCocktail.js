@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Loading from '../components/Loading'
 import { useParams, Link, Outlet } from 'react-router-dom'
 import { useCocktailContext } from '../context'

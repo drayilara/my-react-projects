@@ -37,7 +37,6 @@ let CocktailProvider = ({ children }) => {
 
     useEffect(
       () => {
-        
         let searchUrl = `${url}${cocktails.searchItem}`;
         fetch(searchUrl)
         .then(response => response.json())
