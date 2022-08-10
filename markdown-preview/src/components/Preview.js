@@ -7,9 +7,7 @@ const Preview = ({ content }) => {
             <h3>Preview</h3>
             <div className="preview">
                 <Markdown>{content.marked}</Markdown>
-            </div>
-                
-            
+            </div>    
         </article>
     )
 }
