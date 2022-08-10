@@ -1,11 +1,15 @@
 import React from "react";
+import Markdown from "marked-react";
 
-const Preview = () => {
-
+const Preview = ({ content }) => {    
     return (
         <article>
             <h3>Preview</h3>
-            <div className="preview"></div>
+            <div className="preview">
+                <Markdown>{content.marked}</Markdown>
+            </div>
+                
+            
         </article>
     )
 }
