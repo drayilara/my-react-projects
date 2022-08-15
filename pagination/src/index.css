@@ -1,0 +1,125 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+/* Global */
+
+* {
+    box-sizing : border-box;
+}
+
+::after,
+::before {
+    margin : 0;
+    padding : 0;
+}
+
+body {
+    background-color: #ebf7ff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap : wrap;
+    margin : 0 auto;
+    padding : 5%;
+    margin-left: 2.5vw;
+}
+
+/* Heading */
+
+.heading {
+    text-align: center;
+    font-size: 1.5rem;
+    padding : 2%;
+}
+
+.heading-style {
+    width : 10%;
+    height : 10px;
+    background-color: #8bcbf9;
+    margin : 0 auto;
+    position : relative;
+    bottom : 20px;
+}
+
+/* Pages section */
+
+#page-section {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    padding : .4rem;
+    padding : 2%;
+}
+
+#page-section div {
+    margin : 0 auto;
+}
+
+.pages-box {
+    display: flex;
+    flex-direction: row;
+    padding : .6rem;
+}
+
+.pages-box .move {
+    padding: 1rem;
+    text-align: center;
+    margin : 2px;
+    cursor: pointer;
+}
+
+.pages-box span {
+    padding : 1rem;
+    border-radius: 10%;
+    margin : 2px;
+    cursor: pointer;
+    background-color: #8bcbf9;
+}
+
+.page-bg-purple {
+    background-color: #063251;
+}
+
+.page-gb-blue {
+    background-color: #8bcbf9;
+}
+
+/* User */
+
+.profile {
+    width : 20%;
+    padding : 3%;
+    margin : 20px;
+    background-color: white;
+    border-radius: 5%;
+    box-shadow:  0 5px 15px rgba(0,0,0,0.1);
+}
+
+.profile-content {
+    margin : 0 auto;
+    text-align: center;
+}
+
+.profile-name {
+    color : #49a6e9;
+    text-align : center;
+}
+
+.profile-img {
+    width : 70%;
+    border-radius : 100%;
+}
+
+.profile-btn {
+    width : 70%;
+    padding : 10px;
+    font-size: 12px;
+    border : 0;
+    cursor: pointer;
+    border-radius: 20px;
+    color : white;
+    background-color: #49a6e9;
+}
