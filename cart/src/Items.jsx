@@ -1,117 +1,150 @@
-import React, { useRef } from "react";
-import { AiOutlineDown } from "react-icons/ai";
-import { AiOutlineUp } from "react-icons/ai";
-import { useCartContext } from "./Context";
-import { v4 as key } from 'uuid';
+import React, {useRef, useState} from "react";
+import Products from "./data.js"
 
-const Items = () => {
-    const {dispatchCartState, cartState} = useCartContext();
-    const itemCountRef = useRef(null);
+const Items = ({ setTotalItems }) => {
+    // create a ref and reference nothing yet.
+    let itemCountRef = useRef(null);
+    let [products, setProducts] = React.useState(Products);
+    let [totalPrice, setTotalPrice] = React.useState(() => Products.reduce((acc, product) => acc + product.price, 0));
+    let [clear, setClear] = useState(true);
 
-    const incrementItemCount = (e) => {
-        const { id : itemId } = e.target;
-
-        dispatchCartState({
-            type : "INCREASE ITEM COUNT",
-            id : itemId,
-            count : itemCountRef.current.textContent
+    const handleItemRemoval = (itemId) => {
+        return setProducts(prevProducts => {
+            return prevProducts.filter(product => product.id !== parseInt(itemId, 0));
         })
     }
 
-    const decrementItemCount = (e) => {
-        let { id : itemId } = e.target;
+    const handleClear = () => {
 
-        if(cartState[itemId].count === 1) {
-            dispatchCartState({
-                type : "REMOVE ITEM",
-                id : Number(itemId)
-            })
+        if(clear){
+            setProducts([]);
+            setTotalPrice(0);
+            setTotalItems(0);
+            setClear(false);
+        }else {
+            setTotalPrice(() => Products.reduce((acc, product) => acc + product.price, 0));
+            setProducts(Products);
+            setTotalItems(() => Products.length);
+            setClear(true);
+        }
+    }
+
+    const increaseItemCount = (e) => {
+        let map = getMap();
+        let itemId = e.target.dataset.id;
+        let node = map.get(Number(itemId));
+        node.textContent = Number(node.textContent) + 1;
+
+        // get current Product
+        // get its unit price ===> constant
+        // Add this to a stateful total price
+        let currentProductUnitPrice = products.find(product => product.id === Number(itemId)).price;
+
+        // Increase total Price
+        setTotalPrice(current => current + currentProductUnitPrice);
+
+        // increase the total amount
+        setTotalItems(current => current + 1);
+    }
+
+    const decreaseItemCount = (e) => {
+        let map = getMap();
+        let itemId = e.target.dataset.id;
+        let node = map.get(Number(itemId));
+        if(node.textContent === "1") {
+            handleItemRemoval(itemId);
+        }else {
+            node.textContent = Number(node.textContent) - 1;
         }
 
-        else{
-            dispatchCartState({
-                type : "DECREASE ITEM COUNT",
-                id : itemId,
-                count : itemCountRef.current.textContent
-            })
+        // get current Product
+        // get its unit price ===> constant
+        // Add this to a stateful total price
+        let currentProductUnitPrice = products.find(product => product.id === Number(itemId)).price;
+
+        // decrease total price
+        setTotalPrice(current => current - currentProductUnitPrice);
+
+        // decrease total amount
+        setTotalItems(current => current - 1);    
+    }
+
+    // create a map that allows you collect nodes to one ref
+    const getMap = () => {
+        if(!itemCountRef.current) {
+            // initialise your map
+            itemCountRef.current = new Map();
         }
-        
-        
+        return itemCountRef.current;
     }
 
-    const removeItem = (e) => {
-        const { id : itemId } = e.target;
-
-        dispatchCartState({
-            type : "REMOVE ITEM",
-            id : Number(itemId)
-        })
-    }
-
-    const clearCart = () => {
-        
-        dispatchCartState({
-            type : "CLEAR CART"
-        })
-    }
-
+    
     return (
         <section className="cart">
             <header>
-                <h2>{cartState.data.length ? "your bag" : "your bag is empty"}</h2>
+                <h2>YOUR BAG</h2>
             </header>
 
-        <div>
-        {
-            cartState.data.map(item => (     
-            <article className="cart-item" key={key()}>
-                <img src={item.img} alt={item.title}/>
+        {clear && <div>
+            {products.map(product => 
+                (
+                    <article className="cart-item" key={product.id}>
+                    <img src={product.img} alt={product.title}/>
 
-                <div>
-                    <h4>{item.title}</h4>
-                    <h4 className="item-price">{item.price}</h4>
-                    <button className="remove-btn" id={item.id}
-                    onClick={(e) => removeItem(e)}
-                    >remove</button>
-                </div>
-                <div>
-                    <button 
-                    className="amount-btn">
-                        <AiOutlineUp onClick={(e) => incrementItemCount(e)} id={item.id}
-                            key={key()}
-                        />
-                    </button>
+                    <div>
+                        <h4>{product.title}</h4>
+                        <h4 className="item-price">{product.price}</h4>
+                        <button className="remove-btn" id={product.id}
+                        onClick={(e) => handleItemRemoval(e.target.id)}
+                        >remove</button>
+                    </div>
 
-                    <p className="amount" ref={itemCountRef}>
-                    {
-                      cartState[item.id].count
-                    }
-                    </p>
+                    <div>
+                    <i 
+                    className="fa-solid fa-chevron-up amount-btn"
+                    data-id={product.id}
+                    onClick={(e) => increaseItemCount(e)}
+                    >
+                    </i>
+                
+                        <p className="amount"
+                        id={product.id}
+                        ref={node => {
+                            let map = getMap();
+                            if(node) {
+                                map.set(product.id, node);
+                            }else {
+                                map.delete(product.id);
+                            }
+                        }}
+                        >
+                        {product.amount}
+                        </p>
 
-                    <button className="amount-btn">
-                        <AiOutlineDown onClick={(e) => decrementItemCount(e)} id={item.id}
-                            key={key()}
-                        />
-                    </button>
-                </div>
-            </article>
-            ))  
-        }
+                    <i 
+                    className="fa-solid fa-chevron-down amount-btn"
+                    data-id={product.id}
+                    onClick={(e) => decreaseItemCount(e)}
+                    >
+                    </i>
+                    </div>
+                </article>
+            ))}
         </div>
+        }
 
-            <footer>
-                <hr />
-                <div className="cart-total">
-                    <h4>total
-                    <span>$ {cartState.totalPriceToPay.toFixed(2)}</span>
-                    </h4>
-                </div>
+        <footer>
+            <hr />
+            <div className="cart-total">
+                <h4>total
+                <span>${totalPrice.toFixed(2)}</span>
+                </h4>
+            </div>
 
-                <button 
-                className="btn clear-btn"
-                onClick={clearCart}  
-                > Clear cart </button>
-            </footer>
+            <button className="btn clear-btn"
+            onClick={() => handleClear()}
+            >{clear ? "Clear cart" : "Show cart"}</button>
+        </footer>
         </section>
     )
 }

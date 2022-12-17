@@ -249,6 +249,7 @@ Cart Item
   background: transparent;
   border: none;
   cursor: pointer;
+  margin-left : 10px;
 }
 .amount-btn svg {
   fill: var(--clr-primary);

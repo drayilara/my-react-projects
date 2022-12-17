@@ -1,9 +1,7 @@
 import React from "react";
 import { CgShoppingBag } from "react-icons/cg";
-import { useCartContext } from "./Context";
 
-const Navbar = () => {
-    let {cartState} = useCartContext();
+const Navbar = ({ totalItems }) => {
    
     return (
         <nav>
@@ -14,7 +12,7 @@ const Navbar = () => {
                     <CgShoppingBag className="cart-bag"/>
 
                     <div className="amount-container">
-                        <p className="total-amount">{cartState.totalCount}</p>
+                        <p className="total-amount">{totalItems}</p>
                     </div>
                 </div>
             </div>
