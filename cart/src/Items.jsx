@@ -1,99 +1,18 @@
-import React, {useRef, useState} from "react";
-import Products from "./data.js"
+import React from "react";
+import { useCartContext } from "./Cart.Provider.jsx";
 
-const Items = ({ setTotalItems }) => {
-    // create a ref and reference nothing yet.
-    let itemCountRef = useRef(null);
-    let [products, setProducts] = useState(Products);
-    let [totalPrice, setTotalPrice] = useState(() => Products.reduce((acc, product) => acc + product.price, 0));
-    let [clear, setClear] = useState(true);
-
-    const handleItemRemoval = (e) => {
-        // e.target.id ===> removal button ID
-        let removalBtnId = e.target.id
-        // e.target.dataset.id ===> decrease item button ID
-        let decreaseItemBtnId = e.target.dataset.id;
-
-        let itemId = removalBtnId || decreaseItemBtnId;
-        setProducts(prevProducts => {
-            return prevProducts.filter(product => product.id !== parseInt(itemId, 0));
-        })
-        // reduce total price
-        // prevent duplicate price setting as handleItemRemoval is called by decreaseItemCount
-        // decreaseItemCountimplements a decrease as well.
-        if(!decreaseItemBtnId) {
-            let currentProductUnitPrice = products.find(product => product.id === Number(itemId)).price;
-            setTotalPrice(current => current - currentProductUnitPrice);
-        }
-        
-        if(removalBtnId){
-            setTotalItems(current => current - 1); 
-        }
-    }
-
-    const handleClear = () => {
-
-        if(clear){
-            setProducts([]);
-            setTotalPrice(0);
-            setTotalItems(0);
-            setClear(false);
-        }else {
-            setTotalPrice(() => Products.reduce((acc, product) => acc + product.price, 0));
-            setProducts(Products);
-            setTotalItems(() => Products.length);
-            setClear(true);
-        }
-    }
-
-    const increaseItemCount = (e) => {
-        let map = getMap();
-        let itemId = e.target.dataset.id;
-        let node = map.get(Number(itemId));
-        node.textContent = Number(node.textContent) + 1;
-
-        // get current Product
-        // get its unit price ===> constant
-        // Add this to a stateful total price
-        let currentProductUnitPrice = products.find(product => product.id === Number(itemId)).price;
-
-        // Increase total Price
-        setTotalPrice(current => current + currentProductUnitPrice);
-
-        // increase the total amount
-        setTotalItems(current => current + 1);
-    }
-
-    const decreaseItemCount = (e) => {
-        let map = getMap();
-        let itemId = e.target.dataset.id;
-        let node = map.get(Number(itemId));
-        if(node.textContent === "1") {
-         handleItemRemoval(e);
-        }else {
-            node.textContent = Number(node.textContent) - 1;
-        }
-
-        // get current Product
-        // get its unit price ===> constant
-        // Add this to a stateful total price
-        let currentProductUnitPrice = products.find(product => product.id === Number(itemId)).price;
-
-        // decrease total price
-        setTotalPrice(current => current - currentProductUnitPrice);
-
-        // decrease total amount
-        setTotalItems(current => current - 1);    
-    }
-
-    // create a map that allows you collect nodes to one ref
-    const getMap = () => {
-        if(!itemCountRef.current) {
-            // initialise your map
-            itemCountRef.current = new Map();
-        }
-        return itemCountRef.current;
-    }
+const Items = () => {
+    // consume context here and extract state and actions.
+    let {
+    products,
+    clear,
+    totalPrice,
+    handleClear,
+    handleItemRemoval,
+    increaseItemCount,
+    decreaseItemCount,
+    getMap
+    } = useCartContext();
 
     
     return (

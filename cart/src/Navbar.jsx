@@ -1,8 +1,11 @@
 import React from "react";
 import { CgShoppingBag } from "react-icons/cg";
+import { useCartContext } from "./Cart.Provider";
 
-const Navbar = ({ totalItems }) => {
+const Navbar = () => {
    
+    let { totalItems } = useCartContext();
+    
     return (
         <nav>
             <div className="nav-center">
