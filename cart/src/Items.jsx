@@ -4,14 +4,31 @@ import Products from "./data.js"
 const Items = ({ setTotalItems }) => {
     // create a ref and reference nothing yet.
     let itemCountRef = useRef(null);
-    let [products, setProducts] = React.useState(Products);
-    let [totalPrice, setTotalPrice] = React.useState(() => Products.reduce((acc, product) => acc + product.price, 0));
+    let [products, setProducts] = useState(Products);
+    let [totalPrice, setTotalPrice] = useState(() => Products.reduce((acc, product) => acc + product.price, 0));
     let [clear, setClear] = useState(true);
 
-    const handleItemRemoval = (itemId) => {
-        return setProducts(prevProducts => {
+    const handleItemRemoval = (e) => {
+        // e.target.id ===> removal button ID
+        let removalBtnId = e.target.id
+        // e.target.dataset.id ===> decrease item button ID
+        let decreaseItemBtnId = e.target.dataset.id;
+
+        let itemId = removalBtnId || decreaseItemBtnId;
+        setProducts(prevProducts => {
             return prevProducts.filter(product => product.id !== parseInt(itemId, 0));
         })
+        // reduce total price
+        // prevent duplicate price setting as handleItemRemoval is called by decreaseItemCount
+        // decreaseItemCountimplements a decrease as well.
+        if(!decreaseItemBtnId) {
+            let currentProductUnitPrice = products.find(product => product.id === Number(itemId)).price;
+            setTotalPrice(current => current - currentProductUnitPrice);
+        }
+        
+        if(removalBtnId){
+            setTotalItems(current => current - 1); 
+        }
     }
 
     const handleClear = () => {
@@ -52,7 +69,7 @@ const Items = ({ setTotalItems }) => {
         let itemId = e.target.dataset.id;
         let node = map.get(Number(itemId));
         if(node.textContent === "1") {
-            handleItemRemoval(itemId);
+         handleItemRemoval(e);
         }else {
             node.textContent = Number(node.textContent) - 1;
         }
@@ -95,7 +112,7 @@ const Items = ({ setTotalItems }) => {
                         <h4>{product.title}</h4>
                         <h4 className="item-price">{product.price}</h4>
                         <button className="remove-btn" id={product.id}
-                        onClick={(e) => handleItemRemoval(e.target.id)}
+                        onClick={(e) => handleItemRemoval(e)}
                         >remove</button>
                     </div>
 

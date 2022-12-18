@@ -12,7 +12,7 @@ const PaginationProvider = ({ children }) => {
     })
 
     const loadPage = (e) => {
-        let {textContent:current_page, tagName:tag} = e.target;
+        let { textContent:current_page } = e.target;
 
         let profile_per_page = 10;
         let first_page = 1;
