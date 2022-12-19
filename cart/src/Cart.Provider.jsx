@@ -17,14 +17,6 @@ function CartProvider ({children}) {
         decreaseToggler: false,
         id: ""
     });
-    
-    const getMap = () => {
-        if(!itemCountRef.current) {
-            // initialise your map
-            itemCountRef.current = new Map();
-        }
-        return itemCountRef.current;
-    }
 
     useEffect(
         () => {
@@ -47,6 +39,14 @@ function CartProvider ({children}) {
             }
         }
     , [state.decreaseToggler]);
+    
+    const getMap = () => {
+        if(!itemCountRef.current) {
+            // initialise your map
+            itemCountRef.current = new Map();
+        }
+        return itemCountRef.current;
+    }
 
     let values = { 
         getMap: getMap,
