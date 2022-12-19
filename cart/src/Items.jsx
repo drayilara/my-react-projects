@@ -2,27 +2,21 @@ import React from "react";
 import { useCartContext } from "./Cart.Provider.jsx";
 
 const Items = () => {
-    // consume context here and extract state and actions.
-    let {
-    products,
-    clear,
-    totalPrice,
-    handleClear,
-    handleItemRemoval,
-    increaseItemCount,
-    decreaseItemCount,
-    getMap
-    } = useCartContext();
 
-    
+    let {
+    getMap,
+    state,
+    dispatch
+    } = useCartContext();
+  
     return (
         <section className="cart">
             <header>
                 <h2>YOUR BAG</h2>
             </header>
 
-        {clear && <div>
-            {products.map(product => 
+        {state.clear && <div>
+            {state.products.map(product => 
                 (
                     <article className="cart-item" key={product.id}>
                     <img src={product.img} alt={product.title}/>
@@ -31,7 +25,10 @@ const Items = () => {
                         <h4>{product.title}</h4>
                         <h4 className="item-price">{product.price}</h4>
                         <button className="remove-btn" id={product.id}
-                        onClick={(e) => handleItemRemoval(e)}
+                        onClick={(event) => {
+                            event.persist();
+                            dispatch({type: "remove_item", event: event})
+                        }}
                         >remove</button>
                     </div>
 
@@ -39,7 +36,10 @@ const Items = () => {
                     <i 
                     className="fa-solid fa-chevron-up amount-btn"
                     data-id={product.id}
-                    onClick={(e) => increaseItemCount(e)}
+                    onClick={(event) => {
+                        event.persist();
+                        dispatch({type: "increase_item", event: event})
+                        }}
                     >
                     </i>
                 
@@ -60,7 +60,10 @@ const Items = () => {
                     <i 
                     className="fa-solid fa-chevron-down amount-btn"
                     data-id={product.id}
-                    onClick={(e) => decreaseItemCount(e)}
+                    onClick={(event) => {
+                        event.persist();
+                        dispatch({type: "decrease_item", event: event, getMap: getMap}) 
+                    }}
                     >
                     </i>
                     </div>
@@ -73,13 +76,13 @@ const Items = () => {
             <hr />
             <div className="cart-total">
                 <h4>total
-                <span>${totalPrice.toFixed(2)}</span>
+                <span>${state.totalPrice.toFixed(2)}</span>
                 </h4>
             </div>
 
             <button className="btn clear-btn"
-            onClick={() => handleClear()}
-            >{clear ? "Clear cart" : "Show cart"}</button>
+            onClick={() => dispatch({type: "clear"})}
+            >{state.clear ? "Clear cart" : "Show cart"}</button>
         </footer>
         </section>
     )

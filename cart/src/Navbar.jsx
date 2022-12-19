@@ -4,8 +4,8 @@ import { useCartContext } from "./Cart.Provider";
 
 const Navbar = () => {
    
-    let { totalItems } = useCartContext();
-    
+    let { state } = useCartContext();
+
     return (
         <nav>
             <div className="nav-center">
@@ -15,7 +15,7 @@ const Navbar = () => {
                     <CgShoppingBag className="cart-bag"/>
 
                     <div className="amount-container">
-                        <p className="total-amount">{totalItems}</p>
+                        <p className="total-amount">{state.totalItems}</p>
                     </div>
                 </div>
             </div>
